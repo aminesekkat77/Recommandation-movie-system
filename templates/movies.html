@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Movies</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .primary-cta {
+            background: rgb(229, 9, 20);
+            border: 2px solid #e50914;
+            color: #fff;
+            padding: 0.85rem 1.4rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+        }
+
+        .primary-cta:hover {
+            background: rgb(197, 8, 17);
+        }
+
+        .secondary-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #fff;
+            padding: 0.85rem 1.2rem;
+            border-radius: 0.25rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+        }
+
+        .secondary-btn:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.06);
+        }
+
+        .hero {
+            min-height: 100vh;
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.86), rgba(0, 0, 0, 0.90)),
+                url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1974&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            padding-bottom: 3rem;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 5rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e50914;
+            letter-spacing: 1px;
+        }
+
+        .page-content {
+            padding: 1rem 5rem 3rem;
+        }
+
+        .headline {
+            margin-bottom: 2rem;
+        }
+
+        .headline h1 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 0.7rem;
+        }
+
+        .headline p {
+            color: #cfcfcf;
+            font-size: 1.05rem;
+        }
+
+        .filter-box {
+            background: rgba(15, 15, 15, 0.88);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-box input,
+        .filter-box select {
+            background: rgba(22, 22, 22, 0.88);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 0.4rem;
+            padding: 0.9rem 1rem;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .filter-box input {
+            min-width: 280px;
+            flex: 1;
+        }
+
+        .filter-box select {
+            min-width: 220px;
+        }
+
+        .filter-box input:focus,
+        .filter-box select:focus {
+            border-color: #e50914;
+        }
+
+        .result-count {
+            margin-bottom: 1.3rem;
+            color: #d1d5db;
+            font-size: 0.98rem;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .movie-card {
+            background: linear-gradient(180deg, rgba(35,35,35,0.92), rgba(17,17,17,0.96));
+            border-radius: 0.6rem;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.25s ease;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+        }
+
+        .card-banner {
+            height: 120px;
+            background:
+                linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.55)),
+                url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card-body h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: #fff;
+            line-height: 1.4;
+        }
+
+        .meta {
+            font-size: 0.92rem;
+            color: #d1d5db;
+            line-height: 1.7;
+        }
+
+        .meta span {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .empty-state {
+            background: rgba(229, 9, 20, 0.12);
+            border: 1px solid rgba(229, 9, 20, 0.35);
+            border-radius: 0.6rem;
+            padding: 1.2rem;
+            color: #fff;
+        }
+
+        .pagination {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .page-info {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            padding: 0.7rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 0.35rem;
+        }
+
+        .actions {
+            margin-top: 2rem;
+        }
+
+        @media screen and (max-width: 767px) {
+            nav {
+                padding: 1.4rem 1.2rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .page-content {
+                padding: 1rem 1.2rem 2rem;
+            }
+
+            .headline h1 {
+                font-size: 2rem;
+            }
+
+            .filter-box {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-box input,
+            .filter-box select,
+            .filter-box button,
+            .filter-box a {
+                width: 100%;
+            }
+
+            .pagination {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <nav>
+            <div class="logo">SKIKITMovies</div>
+            <a href="/" class="primary-cta">Home</a>
+        </nav>
+
+        <div class="page-content">
+            <div class="headline">
+                <h1>All Movies</h1>
+                <p>Browse the complete movie catalog with genres, actors and directors.</p>
+            </div>
+
+            <form action="/movies" method="get" class="filter-box">
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search a movie title..."
+                    value="{{ search }}"
+                >
+
+                <select name="genre">
+                    <option value="">All Genres</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre.lower() }}" {% if selected_genre == genre.lower() %}selected{% endif %}>
+                            {{ genre }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="primary-cta">Apply</button>
+                <a href="/movies" class="secondary-btn">Reset</a>
+            </form>
+
+            <div class="result-count">
+                {{ total_movies }} movie(s) found
+            </div>
+
+            {% if movies|length == 0 %}
+                <div class="empty-state">
+                    No movies found for this search or genre filter.
+                </div>
+            {% else %}
+                <div class="movie-grid">
+                    {% for movie in movies %}
+                        <div class="movie-card">
+                            <div class="card-banner"></div>
+                            <div class="card-body">
+                                <h3>{{ movie.title }}</h3>
+                                <div class="meta">
+                                    <p><span>Genres:</span> {{ movie.genres }}</p>
+                                    <p><span>Actors:</span> {{ movie.actor_1 }}, {{ movie.actor_2 }}, {{ movie.actor_3 }}</p>
+                                    <p><span>Director:</span> {{ movie.director }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="pagination">
+                    {% if page > 1 %}
+                        <a href="/movies?search={{ search }}&genre={{ selected_genre }}&page={{ page - 1 }}" class="secondary-btn">← Previous</a>
+                    {% endif %}
+
+                    <div class="page-info">
+                        Page {{ page }} of {{ total_pages }}
+                    </div>
+
+                    {% if page < total_pages %}
+                        <a href="/movies?search={{ search }}&genre={{ selected_genre }}&page={{ page + 1 }}" class="secondary-btn">Next →</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div class="actions">
+                <a href="/" class="primary-cta">Back to Home</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

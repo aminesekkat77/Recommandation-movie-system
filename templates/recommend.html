@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .primary-cta {
+            background: rgb(229, 9, 20);
+            border: 2px solid #e50914;
+            color: #fff;
+            padding: 0.85rem 1.4rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+        }
+
+        .primary-cta:hover {
+            background: rgb(197, 8, 17);
+        }
+
+        .hero {
+            min-height: 100vh;
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.88)),
+                url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            padding-bottom: 3rem;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 5rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e50914;
+            letter-spacing: 1px;
+        }
+
+        .page-content {
+            padding: 1rem 5rem 3rem;
+        }
+
+        .headline {
+            margin-bottom: 2rem;
+        }
+
+        .headline h1 {
+            font-size: 2.8rem;
+            line-height: 1.2;
+            margin-bottom: 0.7rem;
+        }
+
+        .headline p {
+            color: #cfcfcf;
+            font-size: 1.1rem;
+        }
+
+        .movie-highlight {
+            color: #e50914;
+        }
+
+        .error-box {
+            background: rgba(229, 9, 20, 0.15);
+            border: 1px solid rgba(229, 9, 20, 0.4);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            font-size: 1rem;
+            color: #fff;
+            max-width: 900px;
+        }
+
+        .section-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin: 2rem 0 1rem;
+        }
+
+        .movie-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .movie-card {
+            background: linear-gradient(180deg, rgba(35,35,35,0.92), rgba(17,17,17,0.96));
+            border-radius: 0.6rem;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.25s ease;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+        }
+
+        .card-banner {
+            height: 130px;
+            background:
+                linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.55)),
+                url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1974&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .rank {
+            position: absolute;
+            left: 12px;
+            bottom: 10px;
+            background: #e50914;
+            color: #fff;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card-body h3 {
+            font-size: 1.08rem;
+            line-height: 1.45;
+            margin-bottom: 0.65rem;
+            word-break: break-word;
+            color: #ffffff;
+        }
+
+        .card-body p {
+            color: #bdbdbd;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media screen and (max-width: 767px) {
+            nav {
+                padding: 1.4rem 1.2rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .page-content {
+                padding: 1rem 1.2rem 2rem;
+            }
+
+            .headline h1 {
+                font-size: 2rem;
+            }
+
+            .headline p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <nav>
+            <div class="logo">SKIKITMovies</div>
+            <a href="/" class="primary-cta">Home</a>
+        </nav>
+
+        <div class="page-content">
+            <div class="headline">
+                <h1>Top picks for <span class="movie-highlight">{{ movie }}</span></h1>
+                <p>Your recommendation feed is ready.</p>
+            </div>
+
+            {% if t == 's' %}
+                <div class="error-box">
+                    {{ r }}
+                </div>
+            {% else %}
+                <div class="section-title">Because you watched {{ movie }}</div>
+
+                <div class="movie-row">
+                    {% for item in r %}
+                        <div class="movie-card">
+                            <div class="card-banner">
+                                <div class="rank">{{ loop.index }}</div>
+                            </div>
+                            <div class="card-body">
+                                <h3>{{ item.title() }}</h3>
+                                <p>Picked for you based on content similarity and movie metadata.</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="actions">
+                <a href="/" class="primary-cta">Search Another Movie</a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
