@@ -3,6 +3,18 @@
 A content-based movie recommendation web application built with **Python** and **Flask**.  
 The system recommends similar movies using metadata such as **genres, actors, and director**, with **TF-IDF** vectorization and **cosine similarity**.
 
+## Application Preview
+
+### Home Page
+![Home Page](images/home.png)
+
+### Movies Catalog
+![Movies Catalog](images/movies.png)
+
+### Recommendation Page
+![Recommendation Page](images/recommendations.png)
+
+
 ## Features
 
 - Search for a movie and get similar recommendations
