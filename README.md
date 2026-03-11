@@ -1,28 +1,73 @@
-# Movie_Recommendation_System
+# Movie Recommendation System
 
-This is a hollywood movie recommendation system built with Python. I have used IMDB 5000 Movie Dataset to built this.
-Link to dataset :- https://www.kaggle.com/carolzhangdc/imdb-5000-movie-dataset
+A content-based movie recommendation web application built with **Python** and **Flask**.  
+The system recommends similar movies using metadata such as **genres, actors, and director**, with **TF-IDF** vectorization and **cosine similarity**.
 
-Link to the web application :- https://movierecommendationappheroku.herokuapp.com/
+## Features
 
-I have used Flask framework to built web app.
+- Search for a movie and get similar recommendations
+- Browse the full movie catalog
+- Filter movies by genre
+- Search movies by title
+- Paginated movie catalog
+- Netflix-inspired user interface
 
-<hr>
+## Project Overview
 
-# Files:
-*In the preprocessing.ipynb file the Data Preprocessing part has been done.
+This project is based on a **content-based recommendation approach**.  
+Instead of using user ratings, it recommends movies by comparing their metadata.
 
-*requirements.txt-Contains all the libraries required for the model creation.
+The recommendation pipeline includes:
+- data preprocessing with **Pandas**
+- feature engineering from movie metadata
+- weighted metadata combination
+- text vectorization with **TF-IDF**
+- similarity computation with **cosine similarity**
 
-*The application is run from the main.py file.
+## Tech Stack
 
-<hr>
+- **Python**
+- **Flask**
+- **Pandas**
+- **scikit-learn**
+- **HTML / CSS**
+- **Jupyter Notebook**
+- **matplotlib**
 
-![home](https://user-images.githubusercontent.com/61036755/82662120-ee6f3580-9c4a-11ea-9d17-9730bf485f17.png)
-![kad](https://user-images.githubusercontent.com/61036755/82662141-f7600700-9c4a-11ea-903d-d39b2d57c091.png)
-![nbd](https://user-images.githubusercontent.com/61036755/82662166-00e96f00-9c4b-11ea-9f5e-1a5ac3486463.png)
+## Recommendation Method
 
-<hr>
+The recommendation engine uses:
+- **Genres**
+- **Director**
+- **Actor 1**
+- **Actor 2**
+- **Actor 3**
 
-If you like this repo, please don't forget to give a ⭐.
+To improve recommendation quality, weighted features were used:
+- genres repeated more times
+- director weighted more than actors
+
+Then:
+1. the combined text features are vectorized with **TF-IDF**
+2. pairwise similarities are computed using **cosine similarity**
+3. the system returns the most similar movies
+
+## Project Structure
+
+```bash
+Movie_Recommendation_System/
+│
+├── main.py
+├── create.py
+├── data.csv
+├── movie_metadata.csv
+├── preprocessing.ipynb
+├── comparaison.ipynb
+├── requirements.txt
+├── Procfile
+├── similarity_matrix.npy
+└── templates/
+    ├── home.html
+    ├── recommend.html
+    └── movies.html
 
